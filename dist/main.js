@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass Game {\n\n\tconstructor() {\n\t\n\t};\n\n\tstep() {\n\t\tthis.moveObjects();\n\t};\n\n\tdraw(ctx) {\n\t\tctx.clearRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tctx.fillStyle = \"black\";\n\t\tctx.fillRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t};\n\n\tmoveObjects(){\n\n\t};\n}\n\nmodule.exports = Game;\n\n//# sourceURL=webpack:///./src/game.js?");
+eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\nconst SolarObject = __webpack_require__(/*! ./solar_object */ \"./src/solar_object.js\");\n\nclass Game {\n\n\tconstructor() {\n\t\tthis.sun = new SolarObject({\n\t\t\tpos: {x:Utils.getCanvasDim().x/2, y:Utils.getCanvasDim().y/2},\n\t\t\tradius:30,\n\t\t\tcolor: \"yellow\",\n\t\t\tmass: 30\n\t\t})\n\t};\n\n\tstep() {\n\t\tthis.moveObjects();\n\t};\n\n\tdraw(ctx) {\n\t\tctx.clearRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tctx.fillStyle = \"black\";\n\t\tctx.fillRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tthis.sun.draw(ctx);\n\t};\n\n\tmoveObjects(){\n\n\t};\n}\n\nmodule.exports = Game;\n\n//# sourceURL=webpack:///./src/game.js?");
 
 /***/ }),
 
@@ -119,6 +119,17 @@ eval("const GameView = __webpack_require__(/*! ./game_view */ \"./src/game_view.
 
 /***/ }),
 
+/***/ "./src/solar_object.js":
+/*!*****************************!*\
+  !*** ./src/solar_object.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass SolarObject {\n\tconstructor(options) {\n\t\tthis.pos = options.pos;\n\t\tthis.radius = options.radius;\n\t\tthis.mass = options.mass;\n\t\tthis.color = options.color;\n\t};\n\n\n\tdraw(ctx){\n\t\tUtils.drawFilledCircle(ctx, this.pos.x, this.pos.y, this.radius, this.color);\n\t}\n\n\n}\n\nmodule.exports = SolarObject\n\n//# sourceURL=webpack:///./src/solar_object.js?");
+
+/***/ }),
+
 /***/ "./src/utils.js":
 /*!**********************!*\
   !*** ./src/utils.js ***!
@@ -126,7 +137,7 @@ eval("const GameView = __webpack_require__(/*! ./game_view */ \"./src/game_view.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const Utils = {\n\n\tgetCanvasDim() { return {x:900, y:900}; }\n\n}\nmodule.exports = Utils;\n\n//# sourceURL=webpack:///./src/utils.js?");
+eval("const Utils = {\n\n\tgetCanvasDim() { return {x:900, y:900}; },\n\n\tdrawFilledCircle(ctx, x, y, radius, fillStyle) {\n\t\tctx.beginPath();\n\t\tctx.arc(x, y, radius, 0, 360);\n\t\tctx.fillStyle = fillStyle;\n\t\tctx.fill();\n\t},\n\n}\nmodule.exports = Utils;\n\n//# sourceURL=webpack:///./src/utils.js?");
 
 /***/ })
 
