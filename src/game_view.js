@@ -1,5 +1,5 @@
 const SolarSystem = require("./solar_system");
-const SolarObject = require("./solar_object");
+const Sun = require("./sun");
 const OrbitingPlanet = require("./orbiting_planet");
 const Utils = require("./utils");
 
@@ -13,9 +13,9 @@ class GameView {
 
 	addScen1() {
 		this.ss.addSun(
-			new SolarObject({
+			new Sun({
 				pos: { x: Utils.getCanvasDim().x / 2, y: Utils.getCanvasDim().y / 2 },
-				radius: 30,
+				radius: 15,
 				color: "yellow",
 				mass: 300
 			})
@@ -24,7 +24,7 @@ class GameView {
 		this.ss.addPlanet(
 			new OrbitingPlanet({
 				pos: { x: Utils.getCanvasDim().x -200, y: Utils.getCanvasDim().y/2 },
-				radius: 10,
+				radius: 6,
 				color: "blue",
 				mass: 10,
 				suns: this.ss.getSuns(),
@@ -34,6 +34,22 @@ class GameView {
 		);
 
 	};
+
+	// addScen2() {
+	// 	this.addScen1();
+
+	// 	this.ss.addPlanet(
+	// 		new OrbitingPlanet({
+	// 			pos: { x: Utils.getCanvasDim().x - 50, y: Utils.getCanvasDim().y / 2 },
+	// 			radius: 12,
+	// 			color: "orange",
+	// 			mass: 40,
+	// 			suns: this.ss.getSuns(),
+	// 			speed: 2,
+	// 			dir: { x: 0, y: -1 }
+	// 		})
+	// 	);
+	// }
 
 	start(){
 		requestAnimationFrame(this.animate.bind(this));

@@ -4,9 +4,7 @@ const Utils = require("./utils");
 class OrbitingPlanet extends SolarObject {
 	constructor(options) {
 		super(options);
-		this.dir = options.dir;
-		this.speed = options.speed;
-		this.suns = options.suns;
+
 	};
 
 
