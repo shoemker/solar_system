@@ -14,7 +14,6 @@ class SolarObject {
 	getPosition() { return this.pos; };
 	getMass() { return this.mass; };
 	
-	addPath(path) { this.path = path; };
 
 	draw(ctx){
 		Utils.drawFilledCircle(ctx, this.pos.x, this.pos.y, this.radius, this.color);

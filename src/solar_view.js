@@ -15,18 +15,19 @@ class SolarView {
 	addScen1() {
 
 		this.addSun(Utils.getCanvasDim().x / 2, Utils.getCanvasDim().y / 2, 
-			40, 300,"yellow");
+			60, 300,"yellow");
 
 
 		this.ss.addPlanet(
 			new OrbitingPlanet({
 				pos: { x: Utils.getCanvasDim().x -200, y: Utils.getCanvasDim().y/2 },
-				radius: 6,
+				radius: 9,
 				color: "blue",
 				mass: 10,
 				suns: this.ss.getSuns(),
 				speed:3,
-				dir: {x: 0, y: -1}
+				dir: {x: 0, y: -1},
+				path:true
 			})
 		);
 
@@ -39,6 +40,7 @@ class SolarView {
 			// speed: 0,
 			speed: 1.95,
 			dir: { x: 0, y: -1 },
+			path: true
 		});
 
 		const moon = new Moon({
@@ -77,12 +79,13 @@ class SolarView {
 		this.ss.addPlanet(
 			new OrbitingPlanet({
 				pos: { x:300, y: Utils.getCanvasDim().y / 2 },
-				radius: 4,
+				radius: 6,
 				color: "red",
 				mass: 8,
 				suns: this.ss.getSuns(),
-				speed:4,
-				dir: { x: 0, y: 1 }
+				speed:5,
+				dir: { x: 0, y: 1 },
+				path: true
 			})
 		);
 

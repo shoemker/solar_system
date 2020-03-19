@@ -9,14 +9,13 @@ class SolarSystem {
 	};
 
 	getSuns() { return this.suns; };
-	getPath() { return this.path; };
+	// getPath() { return this.path; };
 
 	addSun(sun) {
 		this.suns.push(sun);
 	};
 
 	addPlanet(planet) {
-		// this.planets.push(planet.addPath(this.path));
 		this.planets.push(planet);
 	};
 
@@ -26,13 +25,14 @@ class SolarSystem {
 	};
 
 	draw(ctx) {
+
 		ctx.clearRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);
 		ctx.fillStyle = "black";
 		ctx.fillRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);
+		// this.path.forEach((dot) => Utils.drawFilledCircle(ctx, dot.x, dot.y, 1, "white"));
+
 		this.suns.forEach((sun) => sun.draw(ctx));
 		this.planets.forEach((planet) => planet.draw(ctx));
-		// this.path.forEach((dot) => Utils.drawFilledCircle(ctx, dot.x, dot.y, 1,"white"));
-
 	};
 
 	moveObjects(){
