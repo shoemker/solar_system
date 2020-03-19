@@ -86,17 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/game.js":
-/*!*********************!*\
-  !*** ./src/game.js ***!
-  \*********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\nconst SolarObject = __webpack_require__(/*! ./solar_object */ \"./src/solar_object.js\");\n\nclass Game {\n\n\tconstructor() {\n\t\tthis.sun = new SolarObject({\n\t\t\tpos: {x:Utils.getCanvasDim().x/2, y:Utils.getCanvasDim().y/2},\n\t\t\tradius:30,\n\t\t\tcolor: \"yellow\",\n\t\t\tmass: 30\n\t\t})\n\t};\n\n\tstep() {\n\t\tthis.moveObjects();\n\t};\n\n\tdraw(ctx) {\n\t\tctx.clearRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tctx.fillStyle = \"black\";\n\t\tctx.fillRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tthis.sun.draw(ctx);\n\t};\n\n\tmoveObjects(){\n\n\t};\n}\n\nmodule.exports = Game;\n\n//# sourceURL=webpack:///./src/game.js?");
-
-/***/ }),
-
 /***/ "./src/game_view.js":
 /*!**************************!*\
   !*** ./src/game_view.js ***!
@@ -104,7 +93,7 @@ eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\ncon
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Game = __webpack_require__(/*! ./game */ \"./src/game.js\");\n\nclass GameView {\n\tconstructor(ctx) {\n\t\tthis.ctx = ctx;\n\t\tthis.game = new Game();\n\t}\n\n\tstart(){\n\t\trequestAnimationFrame(this.animate.bind(this));\n\t}\n\n\tanimate(){\n\n\t\tthis.game.step();\n\t\tthis.game.draw(this.ctx);\n\t\trequestAnimationFrame(this.animate.bind(this));\n\t}\n}\nmodule.exports = GameView;\n\n//# sourceURL=webpack:///./src/game_view.js?");
+eval("const SolarSystem = __webpack_require__(/*! ./solar_system */ \"./src/solar_system.js\");\nconst SolarObject = __webpack_require__(/*! ./solar_object */ \"./src/solar_object.js\");\nconst OrbitingPlanet = __webpack_require__(/*! ./orbiting_planet */ \"./src/orbiting_planet.js\");\nconst Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass GameView {\n\tconstructor(ctx) {\n\t\tthis.ctx = ctx;\n\t\tthis.ss = new SolarSystem();\n\n\t\tthis.addScen1();\n\t}\n\n\taddScen1() {\n\t\tthis.ss.addSun(\n\t\t\tnew SolarObject({\n\t\t\t\tpos: { x: Utils.getCanvasDim().x / 2, y: Utils.getCanvasDim().y / 2 },\n\t\t\t\tradius: 30,\n\t\t\t\tcolor: \"yellow\",\n\t\t\t\tmass: 300\n\t\t\t})\n\t\t);\n\n\t\tthis.ss.addPlanet(\n\t\t\tnew OrbitingPlanet({\n\t\t\t\tpos: { x: Utils.getCanvasDim().x -200, y: Utils.getCanvasDim().y/2 },\n\t\t\t\tradius: 10,\n\t\t\t\tcolor: \"blue\",\n\t\t\t\tmass: 10,\n\t\t\t\tsuns: this.ss.getSuns(),\n\t\t\t\tspeed:3,\n\t\t\t\tdir: {x: 0, y: -1}\n\t\t\t})\n\t\t);\n\n\t};\n\n\tstart(){\n\t\trequestAnimationFrame(this.animate.bind(this));\n\t};\n\n\tanimate(){\n\n\t\tthis.ss.step();\n\t\tthis.ss.draw(this.ctx);\n\t\trequestAnimationFrame(this.animate.bind(this));\n\t};\n};\nmodule.exports = GameView;\n\n//# sourceURL=webpack:///./src/game_view.js?");
 
 /***/ }),
 
@@ -119,6 +108,17 @@ eval("const GameView = __webpack_require__(/*! ./game_view */ \"./src/game_view.
 
 /***/ }),
 
+/***/ "./src/orbiting_planet.js":
+/*!********************************!*\
+  !*** ./src/orbiting_planet.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const SolarObject = __webpack_require__(/*! ./solar_object */ \"./src/solar_object.js\");\nconst Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass OrbitingPlanet extends SolarObject {\n\tconstructor(options) {\n\t\tsuper(options);\n\t\tthis.dir = options.dir;\n\t\tthis.speed = options.speed;\n\t\tthis.suns = options.suns;\n\t};\n\n\n\tmove() {\n\t\tthis.suns.forEach(sun => {\n\t\t\t// const angle = Utils.findAngle([this.pos.x,this.pos.y], \n\t\t\t// \t[sun.getPositon().x, sun.getPosition().y])\n\t\t\tconst constant = .25;\n\t\t\tconst distance = Utils.distance([this.pos.x, this.pos.y],\n\t\t\t\t[sun.getPosition().x, sun.getPosition().y]);\n\t\t\t\n\t\t\tconst deltaX = (sun.getPosition().x - this.pos.x) / distance;\n\t\t\tconst deltaY = (sun.getPosition().y - this.pos.y) / distance;\n\t\t\tconst gravity = constant * this.getMass() * sun.getMass() / (distance*distance);\n\n\t\t\tthis.dir.x  +=  deltaX * gravity;\n\t\t\tthis.dir.y += deltaY * gravity;\n\t\t});\n\t\t\n\t\tthis.pos.x += this.dir.x * this.speed;\n\t\tthis.pos.y += this.dir.y * this.speed;\n\t};\n\n\n}\n\nmodule.exports = OrbitingPlanet\n\n//# sourceURL=webpack:///./src/orbiting_planet.js?");
+
+/***/ }),
+
 /***/ "./src/solar_object.js":
 /*!*****************************!*\
   !*** ./src/solar_object.js ***!
@@ -126,7 +126,18 @@ eval("const GameView = __webpack_require__(/*! ./game_view */ \"./src/game_view.
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass SolarObject {\n\tconstructor(options) {\n\t\tthis.pos = options.pos;\n\t\tthis.radius = options.radius;\n\t\tthis.mass = options.mass;\n\t\tthis.color = options.color;\n\t};\n\n\n\tdraw(ctx){\n\t\tUtils.drawFilledCircle(ctx, this.pos.x, this.pos.y, this.radius, this.color);\n\t}\n\n\n}\n\nmodule.exports = SolarObject\n\n//# sourceURL=webpack:///./src/solar_object.js?");
+eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass SolarObject {\n\tconstructor(options) {\n\t\tthis.pos = options.pos;\n\t\tthis.radius = options.radius;\n\t\tthis.mass = options.mass;\n\t\tthis.color = options.color;\n\t};\n\n\tgetPosition() { return this.pos; };\n\tgetMass() { return this.mass; };\n\n\tdraw(ctx){\n\t\tUtils.drawFilledCircle(ctx, this.pos.x, this.pos.y, this.radius, this.color);\n\t};\n\n\n}\n\nmodule.exports = SolarObject\n\n//# sourceURL=webpack:///./src/solar_object.js?");
+
+/***/ }),
+
+/***/ "./src/solar_system.js":
+/*!*****************************!*\
+  !*** ./src/solar_system.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nclass SolarSystem {\n\n\tconstructor() {\n\t\tthis.suns = [];\n\t\tthis.planets = [];\n\t};\n\n\tgetSuns() { return this.suns; };\n\n\taddSun(sun) {\n\t\tthis.suns.push(sun);\n\t};\n\n\taddPlanet(planet) {\n\t\tthis.planets.push(planet);\n\t};\n\n\n\tstep() {\n\t\tthis.moveObjects();\n\t};\n\n\tdraw(ctx) {\n\t\tctx.clearRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tctx.fillStyle = \"black\";\n\t\tctx.fillRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);\n\t\tthis.suns.forEach((sun) => sun.draw(ctx));\n\t\tthis.planets.forEach((planet) => planet.draw(ctx));\n\t};\n\n\tmoveObjects(){\n\t\tthis.planets.forEach((planet) => planet.move());\n\t};\n}\n\nmodule.exports = SolarSystem;\n\n\n//# sourceURL=webpack:///./src/solar_system.js?");
 
 /***/ }),
 
@@ -137,7 +148,7 @@ eval("const Utils = __webpack_require__(/*! ./utils */ \"./src/utils.js\");\n\nc
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const Utils = {\n\n\tgetCanvasDim() { return {x:900, y:900}; },\n\n\tdrawFilledCircle(ctx, x, y, radius, fillStyle) {\n\t\tctx.beginPath();\n\t\tctx.arc(x, y, radius, 0, 360);\n\t\tctx.fillStyle = fillStyle;\n\t\tctx.fill();\n\t},\n\n}\nmodule.exports = Utils;\n\n//# sourceURL=webpack:///./src/utils.js?");
+eval("const Utils = {\n\n\tgetCanvasDim() { return {x:900, y:900}; },\n\n\tfindAngle(point1, point2) {\n\t\tconst xDelta = point2[0] - point1[0];\n\t\tconst yDelta = point2[1] - point1[1];\n\n\t\tconst arcTangent = Math.atan(yDelta / xDelta);\n\t\tlet angle;\n\n\t\tif (xDelta < 0) angle = arcTangent + Math.PI;\n\t\telse if (xDelta > 0 && yDelta < 0) angle = arcTangent + Math.PI * 2;\n\t\telse angle = arcTangent;\n\n\t\treturn angle;\n\t},\n\n\tdistance(obj1, obj2) {\n\t\tlet distance_x = obj1[0] - obj2[0];\n\t\tlet distance_y = obj1[1] - obj2[1];\n\t\treturn Math.sqrt(distance_x * distance_x + distance_y * distance_y);\n\t},\n\n\n\tdrawFilledCircle(ctx, x, y, radius, fillStyle) {\n\t\tctx.beginPath();\n\t\tctx.arc(x, y, radius, 0, 360);\n\t\tctx.fillStyle = fillStyle;\n\t\tctx.fill();\n\t},\n\n}\nmodule.exports = Utils;\n\n//# sourceURL=webpack:///./src/utils.js?");
 
 /***/ })
 

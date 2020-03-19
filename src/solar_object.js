@@ -8,10 +8,12 @@ class SolarObject {
 		this.color = options.color;
 	};
 
+	getPosition() { return this.pos; };
+	getMass() { return this.mass; };
 
 	draw(ctx){
 		Utils.drawFilledCircle(ctx, this.pos.x, this.pos.y, this.radius, this.color);
-	}
+	};
 
 
 }
