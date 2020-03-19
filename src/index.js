@@ -1,4 +1,4 @@
-const GameView = require("./game_view");
+const SolarView = require("./solar_view");
 const Utils = require("./utils");
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	canvasEl.height =Utils.getCanvasDim().y;
 	const ctx = canvasEl.getContext("2d");
 
-	let gv = new GameView(ctx)
+	let gv = new SolarView(ctx)
 	gv.start();
 
 });
