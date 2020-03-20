@@ -41,7 +41,6 @@ class OrbitingPlanet extends SolarObject {
 			moon.move();
 		});
 
-		// if (this.path) this.path.push({x:this.pos.x, y:this.pos.y});
 	};
 
 
@@ -61,15 +60,15 @@ class OrbitingPlanet extends SolarObject {
 		const distanceFromSunY = this.pos.y - orbitingPosY;
 		const newY =  distanceFromSunY*angle +orbitingPosY ;
 
-		let radiusMult = 1 +  distanceFromSunY/600;
+		let radiusMult = 1 +  distanceFromSunY/300;
+
+		radiusMult = radiusMult - radiusMult*angle + 1;
 
 		Utils.drawFilledCircle(ctx, 
 			this.pos.x, newY, 
 			this.radius * radiusMult, this.color);
 
 		this.moons.forEach(moon => moon.draw(ctx, angle, newY, radiusMult));
-
-
 	}
 
 

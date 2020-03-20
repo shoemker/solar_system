@@ -7,10 +7,19 @@ const Utils = require("./utils");
 class SolarView {
 	constructor(ctx) {
 		this.ctx = ctx;
-		this.ss = new SolarSystem(.4);
+		this.ss = new SolarSystem(.5);
 
 		this.addScen2();
+		// this.mouseDown = false;
+		// this.mouseStartingPos = {x:0, y:0};
 	}
+	
+	// getMouseDown() { return this.mouseDown; };
+	// setMouseDown(b) { this.mouseDown = b; };
+	// setMouseStartingPos(pos) {this.mouseStartingPos = pos;};
+	getSS() { return this.ss; };
+
+
 
 	addScen1() {
 

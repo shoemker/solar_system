@@ -10,4 +10,20 @@ document.addEventListener("DOMContentLoaded", function () {
 	let gv = new SolarView(ctx)
 	gv.start();
 
+	// this.mouseDown = false;
+	// this.mouseY = 0;
+
+	// canvasEl.addEventListener('mousedown', (e) => {
+	// 	this.mouseDown = true;
+	// 	this.mouseY = e.offsetY;
+	// });
+	// canvasEl.addEventListener('mousemove', (e) => {
+	// 	if (this.mouseDown) {
+
+	// 	}
+	// });
+	// canvasEl.addEventListener('mouseup', () => {
+	// 	this.mouseDown = false;
+	// });
+
 });

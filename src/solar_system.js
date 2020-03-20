@@ -9,8 +9,9 @@ class SolarSystem {
 		this.angle = angle;
 	};
 
+	getAngle() { return this.angle; };
+	setAngle(angle) { this.angle = angle; };
 	getSuns() { return this.suns; };
-	// getPath() { return this.path; };
 
 	addSun(sun) {
 		this.suns.push(sun);
