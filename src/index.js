@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const deltaY = e.offsetY - this.mouseY;
 
-			tilt = tilt + deltaY/2000;
+			tilt += deltaY/500;
 
 			if (tilt > 1) tilt = 1;
 			else if (tilt < 0) tilt = 0;
