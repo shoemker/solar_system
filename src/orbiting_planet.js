@@ -1,5 +1,4 @@
 const SolarObject = require("./solar_object");
-// const Moon = require("./moon");
 const Utils = require("./utils");
 
 class OrbitingPlanet extends SolarObject {
@@ -7,6 +6,7 @@ class OrbitingPlanet extends SolarObject {
 		super(options);
 		this.moons=[];
 		this.path = options.path;
+		this.moon = options.moon;
 	};
 
 	addMoon(moon) { this.moons.push(moon); };
@@ -45,17 +45,30 @@ class OrbitingPlanet extends SolarObject {
 	};
 
 
-	draw(ctx) {
+	draw(ctx, angle) {
 		if (this.path) {
 			ctx.beginPath();
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = "white";
-			ctx.arc(this.suns[0].getPosition().x, this.suns[0].getPosition().y, this.distance, 0, 360);
+			ctx.ellipse(this.suns[0].getPosition().x, this.suns[0].getPosition().y, 
+				this.distance,this.distance*angle,0, 0, 2*Math.PI);
 			ctx.stroke();
 
-		}
-		super.draw(ctx);
-		this.moons.forEach(moon => moon.draw(ctx));
+		} 
+
+		let orbitingPosY = this.suns[0].getPosition().y
+
+		const distanceFromSunY = this.pos.y - orbitingPosY;
+		const newY =  distanceFromSunY*angle +orbitingPosY ;
+
+		let radiusMult = 1 +  distanceFromSunY/600;
+
+		Utils.drawFilledCircle(ctx, 
+			this.pos.x, newY, 
+			this.radius * radiusMult, this.color);
+
+		this.moons.forEach(moon => moon.draw(ctx, angle, newY, radiusMult));
+
 
 	}
 

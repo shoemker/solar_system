@@ -7,7 +7,7 @@ const Utils = require("./utils");
 class SolarView {
 	constructor(ctx) {
 		this.ctx = ctx;
-		this.ss = new SolarSystem();
+		this.ss = new SolarSystem(.4);
 
 		this.addScen2();
 	}

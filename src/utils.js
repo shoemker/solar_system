@@ -25,7 +25,7 @@ const Utils = {
 
 	drawFilledCircle(ctx, x, y, radius, fillStyle) {
 		ctx.beginPath();
-		ctx.arc(x, y, radius, 0, 360);
+		ctx.arc(x, y, radius, 0, Math.PI*2);
 		ctx.fillStyle = fillStyle;
 		ctx.fill();
 	},
