@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	// });
 	// canvasEl.addEventListener('mousemove', (e) => {
 	// 	if (this.mouseDown) {
-
+	// 		let tilt = gv.getSS().getAngle()
 	// 	}
 	// });
 	// canvasEl.addEventListener('mouseup', () => {

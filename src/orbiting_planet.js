@@ -44,13 +44,13 @@ class OrbitingPlanet extends SolarObject {
 	};
 
 
-	draw(ctx, angle) {
+	draw(ctx, tilt) {
 		if (this.path) {
 			ctx.beginPath();
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = "white";
 			ctx.ellipse(this.suns[0].getPosition().x, this.suns[0].getPosition().y, 
-				this.distance,this.distance*angle,0, 0, 2*Math.PI);
+				this.distance,this.distance*tilt,0, 0, 2*Math.PI);
 			ctx.stroke();
 
 		} 
@@ -58,17 +58,17 @@ class OrbitingPlanet extends SolarObject {
 		let orbitingPosY = this.suns[0].getPosition().y
 
 		const distanceFromSunY = this.pos.y - orbitingPosY;
-		const newY =  distanceFromSunY*angle +orbitingPosY ;
+		const newY =  distanceFromSunY*tilt +orbitingPosY ;
 
 		let radiusMult = 1 +  distanceFromSunY/300;
 
-		radiusMult = radiusMult - radiusMult*angle + 1;
+		radiusMult = radiusMult - radiusMult*tilt + 1;
 
 		Utils.drawFilledCircle(ctx, 
 			this.pos.x, newY, 
 			this.radius * radiusMult, this.color);
 
-		this.moons.forEach(moon => moon.draw(ctx, angle, newY, radiusMult));
+		this.moons.forEach(moon => moon.draw(ctx, tilt, newY, radiusMult));
 	}
 
 

@@ -12,8 +12,8 @@ class Moon extends OrbitingPlanet {
 		this.pos.y += shiftY;
 	}
 
-	draw(ctx, angle, orbitCenterY, mult) {
-		const positionOffsetY = (this.pos.y - this.suns[0].getPosition().y) * angle *mult;
+	draw(ctx, tilt, orbitCenterY, mult) {
+		const positionOffsetY = (this.pos.y - this.suns[0].getPosition().y) * tilt *mult;
 
 		const positionOffsetX = (this.pos.x - this.suns[0].getPosition().x);
 		const newX = this.suns[0].getPosition().x + positionOffsetX*mult;

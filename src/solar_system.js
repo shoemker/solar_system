@@ -2,15 +2,15 @@ const Utils = require("./utils");
 
 class SolarSystem {
 
-	constructor(angle) {
+	constructor(tilt) {
 		this.suns = [];
 		this.planets = [];
 		this.path = [];
-		this.angle = angle;
+		this.tilt = tilt;
 	};
 
-	getAngle() { return this.angle; };
-	setAngle(angle) { this.angle = angle; };
+	getTilt() { return this.tilt; };
+	setTilt(tilt) { this.tilt = tilt; };
 	getSuns() { return this.suns; };
 
 	addSun(sun) {
@@ -34,7 +34,7 @@ class SolarSystem {
 		// this.path.forEach((dot) => Utils.drawFilledCircle(ctx, dot.x, dot.y, 1, "white"));
 
 		this.suns.forEach((sun) => sun.draw(ctx));
-		this.planets.forEach((planet) => planet.draw(ctx, this.angle));
+		this.planets.forEach((planet) => planet.draw(ctx, this.tilt));
 	};
 
 	moveObjects(){
