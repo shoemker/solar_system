@@ -10,20 +10,30 @@ document.addEventListener("DOMContentLoaded", function () {
 	let gv = new SolarView(ctx)
 	gv.start();
 
-	// this.mouseDown = false;
-	// this.mouseY = 0;
+	this.mouseDown = false;
+	this.mouseY = 0;
 
-	// canvasEl.addEventListener('mousedown', (e) => {
-	// 	this.mouseDown = true;
-	// 	this.mouseY = e.offsetY;
-	// });
-	// canvasEl.addEventListener('mousemove', (e) => {
-	// 	if (this.mouseDown) {
-	// 		let tilt = gv.getSS().getAngle()
-	// 	}
-	// });
-	// canvasEl.addEventListener('mouseup', () => {
-	// 	this.mouseDown = false;
-	// });
+	canvasEl.addEventListener('mousedown', (e) => {
+		this.mouseDown = true;
+		this.mouseY = e.offsetY;
+	});
+	canvasEl.addEventListener('mousemove', (e) => {
+		if (this.mouseDown) {
+			let tilt = gv.getSS().getTilt();
+
+			const deltaY = e.offsetY - this.mouseY;
+
+			tilt = tilt + deltaY/2000;
+
+			if (tilt > 1) tilt = 1;
+			else if (tilt < 0) tilt = 0;
+
+			gv.getSS().setTilt(tilt);
+			this.mouseY = e.offsetY;
+		}
+	});
+	canvasEl.addEventListener('mouseup', () => {
+		this.mouseDown = false;
+	});
 
 });
