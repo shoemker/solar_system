@@ -6,6 +6,8 @@ class Moon extends OrbitingPlanet {
 		super(options);
 	};
 
+	addSun(sun) { this.suns.push(sun); };
+
 
 	shift(shiftX, shiftY) {
 		this.pos.x +=	shiftX;

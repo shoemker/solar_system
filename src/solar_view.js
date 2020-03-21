@@ -1,14 +1,12 @@
 const SolarSystem = require("./solar_system");
-const SolarObject = require("./solar_object");
-const OrbitingPlanet = require("./orbiting_planet");
-const Moon = require("./moon");
-const Comet = require("./comet");
+
 const Utils = require("./utils");
 
 class SolarView {
 	constructor(ctx) {
 		this.ctx = ctx;
-		this.ss = new SolarSystem(.5);
+		this.center = {x:Utils.getCanvasDim().x / 2, y:Utils.getCanvasDim().y / 2};
+		this.ss = new SolarSystem(.5, this.center);
 
 		this.addScen1();
 		this.pause = false;
@@ -19,90 +17,92 @@ class SolarView {
 
 	addScen1() {
 
-		this.addSun(Utils.getCanvasDim().x / 2, Utils.getCanvasDim().y / 2, 
-			60, 300,"yellow");
+		this.addSun({
+			pos:this.center, 
+			radius:60, 
+			mass:300, 
+			color: "yellow"
+		});
 
 
-		this.ss.addPlanet(
-			new OrbitingPlanet({
-				pos: { x: Utils.getCanvasDim().x -200, y: Utils.getCanvasDim().y/2 },
-				radius: 9,
-				color: "blue",
-				mass: 10,
-				suns: this.ss.getSuns(),
-				speed:3,
-				dir: {x: 0, y: -1},
-				path: true,
-				rings: { color: "darkblue", radius: 15, angle: Math.PI /6, thickness:5 }
-			})
-		);
+		this.ss.addPlanet({
+			pos: { x: Utils.getCanvasDim().x -200, y: Utils.getCanvasDim().y/2 },
+			radius: 9,
+			color: "blue",
+			mass: 10,
+			suns: this.ss.getSuns(),
+			speed:3,
+			dir: {x: 0, y: -1},
+			path: true,
+			rings: { color: "darkblue", radius: 15, angle: Math.PI /6, thickness:5 }
+		});
+	
 
-		const jup = new OrbitingPlanet({
+		const jup = {
 			pos: { x: Utils.getCanvasDim().x - 50, y: Utils.getCanvasDim().y / 2 },
 			radius: 12,
 			gradient: {a: "orange", b: "red"},
-
 			mass: 40,
 			suns: this.ss.getSuns(),
 			speed: 1.95,
 			dir: { x: 0, y: -1 },
 			path: true
-		});
+		};
 
-		const moon = new Moon({
-			pos: { x: jup.getPosition().x - 50, y: jup.getPosition().y },
+		const jupsMoon = {
+			pos: { x: jup.pos.x - 50, y: jup.pos.y },
 			radius: 2,
 			color: "pink",
 			mass: 1.5,
-			suns: [jup],
 			speed: 2,
-			dir: { x: 0, y: -1 }
+			dir: { x: 0, y: -1 },
+			suns : []
+		};
+
+
+		this.ss.addPlanetWithMoon(jup, jupsMoon);
+
+
+		this.ss.addComet({
+			pos: { x: 600, y: 700 },
+			radius: 2,
+			color: "white",
+			mass: 1,
+			suns: this.ss.getSuns(),
+			speed: 1.8,
+			dir: { x: 0, y: -1 },
 		});
+		
 
-		jup.addMoon(moon);
-
-		this.ss.addPlanet(jup);
-
-
-		this.ss.addPlanet(
-			new Comet({
-				pos: { x: 600, y: 700 },
-				radius: 2,
-				color: "white",
-				mass: 1,
-				suns: this.ss.getSuns(),
-				speed: 1.8,
-				dir: { x: 0, y: -1 }
-			})
-		);
-
-		this.ss.addPlanet(
-			new OrbitingPlanet({
-				pos: { x:300, y: Utils.getCanvasDim().y / 2 },
-				radius: 6,
-				gradient: { a: "green", b: "lightgreen" },
-
-				// color: "red",
-				mass: 8,
-				suns: this.ss.getSuns(),
-				speed:5,
-				dir: { x: 0, y: 1 },
-				path: true
-			})
-		);
+		this.ss.addPlanet({
+			pos: { x:300, y: Utils.getCanvasDim().y / 2 },
+			radius: 6,
+			gradient: { a: "green", b: "lightgreen" },
+			mass: 8,
+			suns: this.ss.getSuns(),
+			speed:5,
+			dir: { x: 0, y: 1 },
+			path: true
+		});
+		
 
 	}
 
 
-	addSun(x,y,radius,mass,color) {
-		const gradient = this.ctx.createRadialGradient(x, y, radius / 4, x,y, radius);
-		gradient.addColorStop(0, color);
-		gradient.addColorStop(1, "transparent");
+	// this logic needs to be in here insead of in solar_system because of access
+	// to ctx
+	addSun(options){
+		const gradient = this.ctx.createRadialGradient(
+			options.pos.x, options.pos.y, options.radius / 4,
+			options.pos.x, options.pos.y, options.radius);
 
-		this.ss.addSun(
-			new SolarObject({ pos: { x, y }, radius, color: gradient, mass})
-		);
-	};
+		gradient.addColorStop(0, options.color);
+		gradient.addColorStop(1, "transparent");
+		options.color = gradient;
+
+		this.ss.addSun(options);
+	}
+
 
 
 	pauseGameToggle() {

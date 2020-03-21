@@ -8,33 +8,41 @@ class Comet extends OrbitingPlanet {
 	};
 
 	draw(ctx, tilt) {
-		// debugger
+		tilt -= .1;
+
 		super.draw(ctx, tilt);
 
 		this.drawTail(ctx,tilt);
 	}
 
 	drawTail(ctx,tilt) {
-		let y = this.yAfterTilt;
-		let x = this.pos.x;
+		// let y = this.yAfterTilt;
+		// let x = this.pos.x;
 
-		const deltaX = this.pos.x - this.suns[0].getPosition().x;
-		const deltaY = this.pos.y - this.suns[0].getPosition().y;
-		
-		const ratio = (this.tailLength + this.distance) /this.distance;
+		const endOfTail = this.findEndOfTail(tilt);
 
-		let tailX = deltaX * ratio + this.suns[0].getPosition().x;
-		let tailY = deltaY * ratio + this.suns[0].getPosition().y;
-
-
-		const distanceFromSunY = tailY - this.suns[0].getPosition().y;
-		const tailYAfterTilt = distanceFromSunY * tilt + this.suns[0].getPosition().y;
 
 
 		Utils.drawFilledCircle(ctx,
-			tailX, tailYAfterTilt,
+			endOfTail.x, endOfTail.y,
 			this.radius * this.radiusMult, this.color);
 
+	}
+
+	findEndOfTail(tilt) {
+		const deltaX = this.pos.x - this.centerOfSS.x;
+		const deltaY = this.pos.y - this.centerOfSS.y;
+
+		const ratio = (this.tailLength + this.distance) / this.distance;
+
+		let tailX = deltaX * ratio + this.centerOfSS.x;
+		let tailY = deltaY * ratio + this.centerOfSS.y;
+
+
+		const distanceFromSunY = tailY - this.centerOfSS.y;
+		const tailYAfterTilt = distanceFromSunY * tilt + this.centerOfSS.y;
+
+		return {x:tailX, y:tailYAfterTilt};
 	}
 
 }

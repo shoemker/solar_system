@@ -4,12 +4,13 @@ const Utils = require("./utils");
 class OrbitingPlanet extends SolarObject {
 	constructor(options) {
 		super(options);
-		this.moons=[];
 		this.path = options.path;
-		this.moon = options.moon;
+
+		this.moons = [];
+
 		this.rings = options.rings;
 		this.gradient = options.gradient;
-
+		this.centerOfSS = options.centerOfSS;
 		this.yAfterTilt;
 	};
 
@@ -50,7 +51,7 @@ class OrbitingPlanet extends SolarObject {
 	draw(ctx, tilt) {
 		if (this.path) this.drawPath(ctx, tilt);
 
-		let orbitingPosY = this.suns[0].getPosition().y;
+		let orbitingPosY = this.centerOfSS.y;
 
 		const distanceFromSunY = this.pos.y - orbitingPosY;
 		this.yAfterTilt =  distanceFromSunY*tilt +orbitingPosY ;
@@ -93,7 +94,7 @@ class OrbitingPlanet extends SolarObject {
 		ctx.ellipse(this.pos.x, y, 
 			this.rings.radius*this.radiusMult, 
 			this.rings.radius/3*this.radiusMult,
-			this.rings.angle, start-.1, start+Math.PI+.1);
+			this.rings.angle, start-.01, start+Math.PI+.01);
 		ctx.stroke();
 	};
 
@@ -102,7 +103,7 @@ class OrbitingPlanet extends SolarObject {
 		ctx.beginPath();
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = "white";
-		ctx.ellipse(this.suns[0].getPosition().x, this.suns[0].getPosition().y,
+		ctx.ellipse(this.centerOfSS.x, this.centerOfSS.y,
 			this.distance, this.distance * tilt, 0, 0, 2 * Math.PI);
 		ctx.stroke();
 	}
