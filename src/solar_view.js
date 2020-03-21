@@ -26,7 +26,7 @@ class SolarView {
 
 
 		this.ss.addPlanet({
-			pos: { x: Utils.getCanvasDim().x -200, y: Utils.getCanvasDim().y/2 },
+			pos: { x: this.center.x + 250, y: this.center.y },
 			radius: 9,
 			color: "blue",
 			mass: 10,
@@ -39,7 +39,7 @@ class SolarView {
 	
 
 		const jup = {
-			pos: { x: Utils.getCanvasDim().x - 50, y: Utils.getCanvasDim().y / 2 },
+			pos: { x: this.center.x + 400, y: this.center.y },
 			radius: 12,
 			gradient: {a: "orange", b: "red"},
 			mass: 40,
@@ -64,7 +64,7 @@ class SolarView {
 
 
 		this.ss.addComet({
-			pos: { x: 600, y: 700 },
+			pos: { x: this.center.x + 150, y: this.center.y + 250 },
 			radius: 2,
 			color: "white",
 			mass: 1,
@@ -75,7 +75,7 @@ class SolarView {
 		
 
 		this.ss.addPlanet({
-			pos: { x:300, y: Utils.getCanvasDim().y / 2 },
+			pos: { x: this.center.x - 150, y: this.center.y },
 			radius: 6,
 			gradient: { a: "green", b: "lightgreen" },
 			mass: 8,
