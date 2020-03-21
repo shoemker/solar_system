@@ -8,6 +8,7 @@ class OrbitingPlanet extends SolarObject {
 		this.path = options.path;
 		this.moon = options.moon;
 		this.rings = options.rings;
+		this.gradient = options.gradient;
 	};
 
 	addMoon(moon) { this.moons.push(moon); };
@@ -47,7 +48,6 @@ class OrbitingPlanet extends SolarObject {
 	draw(ctx, tilt) {
 		if (this.path) this.drawPath(ctx, tilt);
 
-
 		let orbitingPosY = this.suns[0].getPosition().y
 
 		const distanceFromSunY = this.pos.y - orbitingPosY;
@@ -57,26 +57,42 @@ class OrbitingPlanet extends SolarObject {
 
 		radiusMult = radiusMult - radiusMult*tilt + 1;
 
+		if (this.gradient) this.generateGradient(ctx, this.pos.x, newY, this.radius*radiusMult);
+
+		// back of rings drawn
 		if (this.rings) this.drawRings(ctx, newY, radiusMult, Math.PI);
 
+		// planet drawn
 		Utils.drawFilledCircle(ctx, 
 			this.pos.x, newY, 
 			this.radius * radiusMult, this.color);
 
+		// front of rings drawn
 		if (this.rings) this.drawRings(ctx, newY, radiusMult, 0);
 
 		this.moons.forEach(moon => moon.draw(ctx, tilt, newY, radiusMult));
-	}
+	};
+
+
+	generateGradient(ctx,x,y,radius){
+		const grd = ctx.createLinearGradient(x-radius, y, x+radius,y);
+		grd.addColorStop(0, this.gradient.a);
+		grd.addColorStop(1, this.gradient.b);
+
+		this.color = grd;
+	};
+
 
 	drawRings(ctx, y, radiusMult, start) {
 		ctx.beginPath();
-		ctx.fillStyle = this.rings.color;
+		ctx.lineWidth = this.rings.thickness * radiusMult;
+		ctx.strokeStyle = this.rings.color;
 		ctx.ellipse(this.pos.x, y, 
 			this.rings.radius*radiusMult, 
-			this.rings.radius/2*radiusMult,
-			this.rings.angle, start, start+Math.PI);
-		ctx.fill();
-	}
+			this.rings.radius/3*radiusMult,
+			this.rings.angle, start-.1, start+Math.PI+.1);
+		ctx.stroke();
+	};
 
 
 	drawPath(ctx, tilt) {

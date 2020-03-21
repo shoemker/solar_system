@@ -57,10 +57,9 @@ class SolarSystem {
 		ctx.clearRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);
 		ctx.fillStyle = "black";
 		ctx.fillRect(0, 0, Utils.getCanvasDim().x, Utils.getCanvasDim().y);
-		// this.path.forEach((dot) => Utils.drawFilledCircle(ctx, dot.x, dot.y, 1, "white"));
 
 		this.stars.forEach((star) => star.draw(ctx));
-		
+
 		this.suns.forEach((sun) => sun.draw(ctx));
 		this.planets.forEach((planet) => planet.draw(ctx, this.tilt));
 	};

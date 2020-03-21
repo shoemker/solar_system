@@ -32,14 +32,15 @@ class SolarView {
 				speed:3,
 				dir: {x: 0, y: -1},
 				path: true,
-				rings: { color: "brown", radius: 14, angle: Math.PI / 4 }
+				rings: { color: "darkblue", radius: 15, angle: Math.PI /6, thickness:5 }
 			})
 		);
 
 		const jup = new OrbitingPlanet({
 			pos: { x: Utils.getCanvasDim().x - 50, y: Utils.getCanvasDim().y / 2 },
 			radius: 12,
-			color: "orange",
+			gradient: {a: "orange", b: "red"},
+
 			mass: 40,
 			suns: this.ss.getSuns(),
 			speed: 1.95,
@@ -78,7 +79,9 @@ class SolarView {
 			new OrbitingPlanet({
 				pos: { x:300, y: Utils.getCanvasDim().y / 2 },
 				radius: 6,
-				color: "red",
+				gradient: { a: "green", b: "lightgreen" },
+
+				// color: "red",
 				mass: 8,
 				suns: this.ss.getSuns(),
 				speed:5,
