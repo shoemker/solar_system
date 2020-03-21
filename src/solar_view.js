@@ -2,6 +2,7 @@ const SolarSystem = require("./solar_system");
 const SolarObject = require("./solar_object");
 const OrbitingPlanet = require("./orbiting_planet");
 const Moon = require("./moon");
+const Comet = require("./comet");
 const Utils = require("./utils");
 
 class SolarView {
@@ -64,7 +65,7 @@ class SolarView {
 
 
 		this.ss.addPlanet(
-			new OrbitingPlanet({
+			new Comet({
 				pos: { x: 600, y: 700 },
 				radius: 2,
 				color: "white",
