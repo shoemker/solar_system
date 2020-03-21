@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	canvasEl.height =Utils.getCanvasDim().y;
 	const ctx = canvasEl.getContext("2d");
 
-	let gv = new SolarView(ctx)
-	gv.start();
+	let sv = new SolarView(ctx)
+	sv.start();
 
 	this.mouseDown = false;
 	this.mouseY = 0;
@@ -17,9 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		this.mouseDown = true;
 		this.mouseY = e.offsetY;
 	});
+
 	canvasEl.addEventListener('mousemove', (e) => {
 		if (this.mouseDown) {
-			let tilt = gv.getSS().getTilt();
+			let tilt = sv.getSS().getTilt();
 
 			const deltaY = e.offsetY - this.mouseY;
 
@@ -28,12 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (tilt > 1) tilt = 1;
 			else if (tilt < 0) tilt = 0;
 
-			gv.getSS().setTilt(tilt);
+			sv.getSS().setTilt(tilt);
 			this.mouseY = e.offsetY;
 		}
 	});
+
 	canvasEl.addEventListener('mouseup', () => {
 		this.mouseDown = false;
 	});
 
+	window.addEventListener('keydown', (e) => {
+		// p pauses game
+		if (e.target == document.body && e.keyCode === 80) sv.pauseGameToggle(); 
+	});
 });

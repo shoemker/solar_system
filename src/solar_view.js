@@ -9,17 +9,12 @@ class SolarView {
 		this.ctx = ctx;
 		this.ss = new SolarSystem(.5);
 
-		this.addScen2();
-		// this.mouseDown = false;
-		// this.mouseStartingPos = {x:0, y:0};
+		this.addScen1();
+		this.pause = false;
 	}
 	
-	// getMouseDown() { return this.mouseDown; };
-	// setMouseDown(b) { this.mouseDown = b; };
-	// setMouseStartingPos(pos) {this.mouseStartingPos = pos;};
+
 	getSS() { return this.ss; };
-
-
 
 	addScen1() {
 
@@ -36,7 +31,8 @@ class SolarView {
 				suns: this.ss.getSuns(),
 				speed:3,
 				dir: {x: 0, y: -1},
-				path:true
+				path: true,
+				rings: { color: "brown", radius: 14, angle: Math.PI / 4 }
 			})
 		);
 
@@ -46,7 +42,6 @@ class SolarView {
 			color: "orange",
 			mass: 40,
 			suns: this.ss.getSuns(),
-			// speed: 0,
 			speed: 1.95,
 			dir: { x: 0, y: -1 },
 			path: true
@@ -66,12 +61,6 @@ class SolarView {
 
 		this.ss.addPlanet(jup);
 
-		
-
-	};
-
-	addScen2() {
-		this.addScen1();
 
 		this.ss.addPlanet(
 			new OrbitingPlanet({
@@ -109,15 +98,22 @@ class SolarView {
 		this.ss.addSun(
 			new SolarObject({ pos: { x, y }, radius, color: gradient, mass})
 		);
-	}
+	};
+
+
+	pauseGameToggle() {
+		this.pause = this.pause === false;
+	};
+
 
 	start(){
 		requestAnimationFrame(this.animate.bind(this));
 	};
 
+
 	animate(){
 
-		this.ss.step();
+		if (!this.pause) this.ss.step();
 		this.ss.draw(this.ctx);
 		requestAnimationFrame(this.animate.bind(this));
 	};

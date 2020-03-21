@@ -7,12 +7,11 @@ class OrbitingPlanet extends SolarObject {
 		this.moons=[];
 		this.path = options.path;
 		this.moon = options.moon;
+		this.rings = options.rings;
 	};
 
 	addMoon(moon) { this.moons.push(moon); };
-
-
-
+	
 
 	move() {
 		this.suns.forEach(sun => {
@@ -23,6 +22,7 @@ class OrbitingPlanet extends SolarObject {
 
 			const deltaX = (sun.getPosition().x - this.pos.x) / this.distance;
 			const deltaY = (sun.getPosition().y - this.pos.y) / this.distance;
+
 			const gravity = constant * this.getMass() * sun.getMass() / 
 				(this.distance * this.distance);
 
@@ -47,6 +47,7 @@ class OrbitingPlanet extends SolarObject {
 	draw(ctx, tilt) {
 		if (this.path) this.drawPath(ctx, tilt);
 
+
 		let orbitingPosY = this.suns[0].getPosition().y
 
 		const distanceFromSunY = this.pos.y - orbitingPosY;
@@ -56,11 +57,25 @@ class OrbitingPlanet extends SolarObject {
 
 		radiusMult = radiusMult - radiusMult*tilt + 1;
 
+		if (this.rings) this.drawRings(ctx, newY, radiusMult, Math.PI);
+
 		Utils.drawFilledCircle(ctx, 
 			this.pos.x, newY, 
 			this.radius * radiusMult, this.color);
 
+		if (this.rings) this.drawRings(ctx, newY, radiusMult, 0);
+
 		this.moons.forEach(moon => moon.draw(ctx, tilt, newY, radiusMult));
+	}
+
+	drawRings(ctx, y, radiusMult, start) {
+		ctx.beginPath();
+		ctx.fillStyle = this.rings.color;
+		ctx.ellipse(this.pos.x, y, 
+			this.rings.radius*radiusMult, 
+			this.rings.radius/2*radiusMult,
+			this.rings.angle, start, start+Math.PI);
+		ctx.fill();
 	}
 
 
