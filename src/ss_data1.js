@@ -1,7 +1,7 @@
 const SSData1 = {
 
 	addDataToSS(ctx, ss, center) {
-		
+
 		ss.addSun(ctx,
 			{pos: center,
 			radius: 60,
@@ -20,8 +20,8 @@ const SSData1 = {
 			dir: { x: 0, y: -1 },
 			path: true,
 			rings: [{ color: "darkblue", radius: 18, angle: Math.PI / 6, thickness: 2 },
-			{ color: "darkblue", radius: 15, angle: Math.PI / 6, thickness: 2 },
-			{ color: "darkblue", radius: 12, angle: Math.PI / 6, thickness: 2 }]
+				{ color: "darkblue", radius: 15, angle: Math.PI / 6, thickness: 2 },
+				{ color: "darkblue", radius: 12, angle: Math.PI / 6, thickness: 2 }]
 		});
 
 

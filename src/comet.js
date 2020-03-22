@@ -4,30 +4,65 @@ const Utils = require("./utils");
 class Comet extends OrbitingPlanet {
 	constructor(options) {
 		super(options);
-		this.tailLength = 20;
+		this.tailLength = 100;
 	};
+
 
 	draw(ctx, tilt) {
 		tilt -= .1;
 
 		super.draw(ctx, tilt);
-
 		this.drawTail(ctx,tilt);
-	}
+	};
+
 
 	drawTail(ctx,tilt) {
-		// let y = this.yAfterTilt;
-		// let x = this.pos.x;
+		let y = this.yAfterTilt;
+		let x = this.pos.x;
 
 		const endOfTail = this.findEndOfTail(tilt);
 
+		const angle = Utils.findAngle([x,y], 
+			[this.suns[0].getPosition().x, this.suns[0].getPosition().y]);
+
+		const leftEdgeOfComet = this.getEdgeOfComet(x,y,angle + Math.PI / 2);
+		const rightEdgeOfComet = this.getEdgeOfComet(x,y,angle - Math.PI / 2);
+
+		ctx.fillStyle = this.createGradient(ctx, {x,y}, endOfTail);
+
+		ctx.moveTo(leftEdgeOfComet.x, leftEdgeOfComet.y);
+		ctx.lineTo(rightEdgeOfComet.x, rightEdgeOfComet.y);
+		ctx.lineTo(endOfTail.x, endOfTail.y);
+		ctx.lineTo(leftEdgeOfComet.x, leftEdgeOfComet.y);
+		ctx.fill();
+
+		// Utils.drawFilledCircle(ctx,
+		// 	endOfTail.x, endOfTail.y,
+		// 	1, "red");
+		// Utils.drawFilledCircle(ctx,
+		// 	leftEdgeOfComet.x, leftEdgeOfComet.y,
+		// 	1, "red");
+		// Utils.drawFilledCircle(ctx,
+		// 	rightEdgeOfComet.x, rightEdgeOfComet.y,
+		// 	1, "red");
+	};
 
 
-		Utils.drawFilledCircle(ctx,
-			endOfTail.x, endOfTail.y,
-			this.radius * this.radiusMult, this.color);
-
+	createGradient(ctx, start, end) {
+		const gradient = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
+		gradient.addColorStop(0, this.color);
+		gradient.addColorStop(1, "transparent");
+		return gradient;
 	}
+
+
+	getEdgeOfComet(x, y, angle) {
+		const xOffset = Math.cos(angle) * this.radius * this.radiusMult;
+		const yOffset = Math.sin(angle) * this.radius * this.radiusMult;
+
+		return {x: x + xOffset, y: y + yOffset};
+	};
+
 
 	findEndOfTail(tilt) {
 		const deltaX = this.pos.x - this.centerOfSS.x;
