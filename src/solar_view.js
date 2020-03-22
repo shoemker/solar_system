@@ -6,7 +6,7 @@ class SolarView {
 	constructor(ctx) {
 		this.ctx = ctx;
 		this.center = {x:Utils.getCanvasDim().x / 2, y:Utils.getCanvasDim().y / 2};
-		this.ss = new SolarSystem(.5, this.center);
+		this.ss = new SolarSystem(.294, this.center);
 
 		this.addScen1();
 		this.pause = false;
@@ -28,20 +28,22 @@ class SolarView {
 		this.ss.addPlanet({
 			pos: { x: this.center.x + 250, y: this.center.y },
 			radius: 9,
-			color: "blue",
+			gradientColors: { a: "blue", b: "lightblue" },
 			mass: 10,
 			suns: this.ss.getSuns(),
 			speed:3,
 			dir: {x: 0, y: -1},
 			path: true,
-			rings: { color: "darkblue", radius: 15, angle: Math.PI /6, thickness:5 }
+			rings: [{ color: "darkblue", radius: 18, angle: Math.PI /6, thickness:2 },
+				{ color: "darkblue", radius: 15, angle: Math.PI / 6, thickness:2 },
+				{ color: "darkblue", radius: 12, angle: Math.PI / 6, thickness: 2 }]
 		});
 	
 
 		const jup = {
 			pos: { x: this.center.x + 400, y: this.center.y },
 			radius: 12,
-			gradient: {a: "orange", b: "red"},
+			gradientColors: {a: "orange", b: "red"},
 			mass: 40,
 			suns: this.ss.getSuns(),
 			speed: 1.95,
@@ -77,7 +79,7 @@ class SolarView {
 		this.ss.addPlanet({
 			pos: { x: this.center.x - 150, y: this.center.y },
 			radius: 6,
-			gradient: { a: "green", b: "lightgreen" },
+			gradientColors: { a: "green", b: "lightgreen" },
 			mass: 8,
 			suns: this.ss.getSuns(),
 			speed:5,

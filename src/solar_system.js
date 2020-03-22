@@ -10,7 +10,7 @@ class SolarSystem {
 	constructor(tilt, center) {
 		this.suns = [];
 		this.planets = [];
-		this.path = [];
+
 		this.tilt = tilt;
 		this.center = center;
 
@@ -49,9 +49,10 @@ class SolarSystem {
 
 		jup.addMoon(moon);
 		moon.addSun(jup);
-		
+
 		this.planets.push(jup);
 	};
+
 
 	// factory method to create stars
 	// a version of this came from http://thenewcode.com/81/Make-A-Starfield-Background-with-HTML5-Canvas
@@ -89,6 +90,7 @@ class SolarSystem {
 
 		this.suns.forEach((sun) => sun.draw(ctx));
 		this.planets.forEach((planet) => planet.draw(ctx, this.tilt));
+		// console.log(this.tilt);
 	};
 
 	moveObjects(){

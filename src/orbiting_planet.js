@@ -9,7 +9,7 @@ class OrbitingPlanet extends SolarObject {
 		this.moons = [];
 
 		this.rings = options.rings;
-		this.gradient = options.gradient;
+		this.gradientColors = options.gradientColors;
 		this.centerOfSS = options.centerOfSS;
 		this.yAfterTilt;
 	};
@@ -60,11 +60,14 @@ class OrbitingPlanet extends SolarObject {
 
 		this.radiusMult = this.radiusMult - this.radiusMult*tilt + 1;
 
-		if (this.gradient) 
-			this.generateGradient(ctx, this.pos.x, this.yAfterTilt, this.radius*this.radiusMult);
+		if (this.gradientColors) {
+			this.color = this.generateGradient(ctx, this.pos.x, this.yAfterTilt, 
+				this.radius*this.radiusMult);
+		}
 
 		// back of rings drawn
-		if (this.rings) this.drawRings(ctx, this.yAfterTilt, Math.PI);
+		if (this.rings) 
+			this.rings.forEach((ring)=> this.drawRings(ctx, ring, this.yAfterTilt, Math.PI));
 
 		// planet drawn
 		Utils.drawFilledCircle(ctx, 
@@ -72,29 +75,30 @@ class OrbitingPlanet extends SolarObject {
 			this.radius * this.radiusMult, this.color);
 
 		// front of rings drawn
-		if (this.rings) this.drawRings(ctx, this.yAfterTilt, 0);
+		if (this.rings)
+			this.rings.forEach((ring) => this.drawRings(ctx, ring, this.yAfterTilt, 0));
 
 		this.moons.forEach(moon => moon.draw(ctx, tilt, this.yAfterTilt, this.radiusMult));
 	};
 
 
 	generateGradient(ctx,x,y,radius){
-		const grd = ctx.createLinearGradient(x-radius, y, x+radius,y);
-		grd.addColorStop(0, this.gradient.a);
-		grd.addColorStop(1, this.gradient.b);
+		const gradient = ctx.createLinearGradient(x-radius, y, x+radius,y);
+		gradient.addColorStop(0, this.gradientColors.a);
+		gradient.addColorStop(1, this.gradientColors.b);
 
-		this.color = grd;
+		return gradient;
 	};
 
 
-	drawRings(ctx, y, start) {
+	drawRings(ctx, ring, y, start) {
 		ctx.beginPath();
-		ctx.lineWidth = this.rings.thickness * this.radiusMult;
-		ctx.strokeStyle = this.rings.color;
+		ctx.lineWidth = ring.thickness * this.radiusMult;
+		ctx.strokeStyle = ring.color;
 		ctx.ellipse(this.pos.x, y, 
-			this.rings.radius*this.radiusMult, 
-			this.rings.radius/3*this.radiusMult,
-			this.rings.angle, start-.01, start+Math.PI+.01);
+			ring.radius*this.radiusMult, 
+			ring.radius/3*this.radiusMult,
+			ring.angle, start-.01, start+Math.PI+.01);
 		ctx.stroke();
 	};
 
@@ -106,9 +110,7 @@ class OrbitingPlanet extends SolarObject {
 		ctx.ellipse(this.centerOfSS.x, this.centerOfSS.y,
 			this.distance, this.distance * tilt, 0, 0, 2 * Math.PI);
 		ctx.stroke();
-	}
-
-
+	};
 }
 
 module.exports = OrbitingPlanet
