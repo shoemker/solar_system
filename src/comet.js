@@ -11,8 +11,16 @@ class Comet extends OrbitingPlanet {
 	draw(ctx, tilt) {
 		tilt -= .1;
 
-		super.draw(ctx, tilt);
-		this.drawTail(ctx,tilt);
+		const orbitPos = this.suns[0].getPosition();
+		const orbitRad = this.suns[0].radius;
+
+		if (this.pos.x > orbitPos.x + orbitRad/3 || 
+			this.pos.x < orbitPos.x - orbitRad/3 ||
+			this.pos.y > orbitPos.y) {
+					
+			super.draw(ctx, tilt);
+			this.drawTail(ctx,tilt);
+		}
 	};
 
 
@@ -35,16 +43,6 @@ class Comet extends OrbitingPlanet {
 		ctx.lineTo(endOfTail.x, endOfTail.y);
 		ctx.lineTo(leftEdgeOfComet.x, leftEdgeOfComet.y);
 		ctx.fill();
-
-		// Utils.drawFilledCircle(ctx,
-		// 	endOfTail.x, endOfTail.y,
-		// 	1, "red");
-		// Utils.drawFilledCircle(ctx,
-		// 	leftEdgeOfComet.x, leftEdgeOfComet.y,
-		// 	1, "red");
-		// Utils.drawFilledCircle(ctx,
-		// 	rightEdgeOfComet.x, rightEdgeOfComet.y,
-		// 	1, "red");
 	};
 
 
@@ -53,7 +51,7 @@ class Comet extends OrbitingPlanet {
 		gradient.addColorStop(0, this.color);
 		gradient.addColorStop(1, "transparent");
 		return gradient;
-	}
+	};
 
 
 	getEdgeOfComet(x, y, angle) {
@@ -78,7 +76,7 @@ class Comet extends OrbitingPlanet {
 		const tailYAfterTilt = distanceFromSunY * tilt + this.centerOfSS.y;
 
 		return {x:tailX, y:tailYAfterTilt};
-	}
+	};
 
 }
 

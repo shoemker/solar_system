@@ -78,13 +78,14 @@ const SSData1 = {
 		ss.addComet({
 			pos: { x: center.x + 150, y: center.y + 250 },
 			radius: 2,
-			color: "rgb(255, 255, 204)",
+			// color: "rgb(255, 255, 204)",
+			color: "violet",
 			mass: 1,
 			suns: ss.getSuns(),
 			speed: 1.8,
 			dir: { x: 0, y: -1 },
 		});
-	},
-}
+	}
+};
 
 module.exports = SSData1;
