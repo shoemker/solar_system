@@ -22,8 +22,18 @@ class SolarSystem {
 	setTilt(tilt) { this.tilt = tilt; };
 	getSuns() { return this.suns; };
 
-	addSun(options) {
+
+	addSun(ctx, options) {
+		const gradient = ctx.createRadialGradient(
+			options.pos.x, options.pos.y, options.radius / 4,
+			options.pos.x, options.pos.y, options.radius);
+
+		gradient.addColorStop(0, options.color);
+		gradient.addColorStop(1, "transparent");
+
+		options.color = gradient;
 		options.centerOfSS = this.center;
+
 		this.suns.push(new SolarObject(options));
 	};
 
@@ -45,12 +55,12 @@ class SolarSystem {
 		planetOptions.centerOfSS = this.center
 
 		const moon = new Moon(moonOptions);
-		const jup = new OrbitingPlanet(planetOptions);
+		const planet = new OrbitingPlanet(planetOptions);
 
-		jup.addMoon(moon);
-		moon.addSun(jup);
+		planet.addMoon(moon);
+		moon.addSun(planet);
 
-		this.planets.push(jup);
+		this.planets.push(planet);
 	};
 
 
@@ -90,7 +100,6 @@ class SolarSystem {
 
 		this.suns.forEach((sun) => sun.draw(ctx));
 		this.planets.forEach((planet) => planet.draw(ctx, this.tilt));
-		// console.log(this.tilt);
 	};
 
 	moveObjects(){

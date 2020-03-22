@@ -1,7 +1,8 @@
-const SSData1= {
+const SSData1 = {
 
 	addDataToSS(ctx, ss, center) {
-		this.addSun(ctx, ss,
+		
+		ss.addSun(ctx,
 			{pos: center,
 			radius: 60,
 			mass: 300,
@@ -64,29 +65,13 @@ const SSData1= {
 		ss.addComet({
 			pos: { x: center.x + 150, y: center.y + 250 },
 			radius: 2,
-			color: "white",
+			color: "rgb(255, 255, 204)",
 			mass: 1,
 			suns: ss.getSuns(),
 			speed: 1.8,
 			dir: { x: 0, y: -1 },
 		});
 	},
-		
-
-	// this logic needs to be in here insead of in solar_system because of access
-	// to ctx
-	addSun(ctx, ss, options){
-		// debugger
-		const gradient = ctx.createRadialGradient(
-			options.pos.x, options.pos.y, options.radius / 4,
-			options.pos.x, options.pos.y, options.radius);
-
-		gradient.addColorStop(0, options.color);
-		gradient.addColorStop(1, "transparent");
-		options.color = gradient;
-
-		ss.addSun(options);
-	}
 }
 
 module.exports = SSData1;

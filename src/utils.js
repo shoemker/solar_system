@@ -15,6 +15,7 @@ const Utils = {
 
 		return angle;
 	},
+	
 
 	distance(obj1, obj2) {
 		let distance_x = obj1[0] - obj2[0];
