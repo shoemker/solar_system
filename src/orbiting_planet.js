@@ -10,7 +10,6 @@ class OrbitingPlanet extends SolarObject {
 
 		this.rings = options.rings;
 		this.gradientColors = options.gradientColors;
-		this.centerOfSS = options.centerOfSS;
 		this.yAfterTilt;
 	};
 

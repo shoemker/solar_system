@@ -64,7 +64,7 @@ const SSData1 = {
 		const jupsMoon = {
 			pos: { x: jup.pos.x - 50, y: jup.pos.y },
 			radius: 2,
-			color: "pink",
+			color: "red",
 			mass: 1.5,
 			speed: 2,
 			dir: { x: 0, y: -1 },

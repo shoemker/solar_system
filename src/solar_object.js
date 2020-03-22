@@ -9,7 +9,7 @@ class SolarObject {
 		this.dir = options.dir;
 		this.speed = options.speed;
 		this.suns = options.suns;
-		this.centerOfSS = options.center;
+		this.centerOfSS = options.centerOfSS;
 	};
 
 	getPosition() { return this.pos; };

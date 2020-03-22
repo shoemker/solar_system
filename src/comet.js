@@ -14,6 +14,7 @@ class Comet extends OrbitingPlanet {
 		const orbitPos = this.suns[0].getPosition();
 		const orbitRad = this.suns[0].radius;
 
+		// hopefully comet isn't drawn when it's behind sun
 		if (this.pos.x > orbitPos.x + orbitRad/3 || 
 			this.pos.x < orbitPos.x - orbitRad/3 ||
 			this.pos.y > orbitPos.y) {
@@ -24,6 +25,7 @@ class Comet extends OrbitingPlanet {
 	};
 
 
+	// the tail is a gradient in a triangle that extends behind the comet away from sun
 	drawTail(ctx,tilt) {
 		let y = this.yAfterTilt;
 		let x = this.pos.x;
