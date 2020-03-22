@@ -25,7 +25,7 @@ const SSData1 = {
 		});
 
 
-		ss.addPlanet({
+		const ven = {
 			pos: { x: center.x - 150, y: center.y },
 			radius: 6,
 			gradientColors: { a: "green", b: "lightgreen" },
@@ -34,7 +34,20 @@ const SSData1 = {
 			speed: 5,
 			dir: { x: 0, y: 1 },
 			path: true
-		});
+		};
+
+		const vensMoon = {
+			pos: { x: ven.pos.x - 15, y: ven.pos.y },
+			radius: 1,
+			color: "lightgreen",
+			mass: .3,
+			speed: 1,
+			dir: { x: 0, y: -1 },
+			suns: []
+		};
+
+
+		ss.addPlanetWithMoon(ven, vensMoon);
 
 
 		const jup = {
