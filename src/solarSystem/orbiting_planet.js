@@ -1,5 +1,5 @@
 const SolarObject = require("./solar_object");
-const Utils = require("./utils");
+const Utils = require("../utils");
 
 class OrbitingPlanet extends SolarObject {
 	constructor(options) {
@@ -8,8 +8,10 @@ class OrbitingPlanet extends SolarObject {
 
 		this.moons = [];
 
-		this.rings = options.rings;
 		this.gradientColors = options.gradientColors;
+
+		this.rings = options.rings;
+		this.ringsColor = options.ringsColor;
 		this.yAfterTilt;
 	};
 
@@ -26,9 +28,10 @@ class OrbitingPlanet extends SolarObject {
 			const deltaX = sun.getPosition().x - this.pos.x;
 			const deltaY = sun.getPosition().y - this.pos.y;
 
-			const gravity = constant * this.getMass() * sun.getMass() / 
+			const gravity = constant * this.mass * sun.getMass() / 
 				(this.distance * this.distance);
 
+			// mass of planet acutally cancels out so is actually unnecessary
 			this.dir.x += deltaX / this.distance * gravity / this.mass;
 			this.dir.y += deltaY / this.distance * gravity / this.mass;
 		});
@@ -48,6 +51,7 @@ class OrbitingPlanet extends SolarObject {
 
 
 	draw(ctx, tilt) {
+
 		if (this.path) this.drawPath(ctx, tilt);
 
 		let orbitingPosY = this.centerOfSS.y;
@@ -59,11 +63,9 @@ class OrbitingPlanet extends SolarObject {
 
 		this.radiusMult = this.radiusMult - this.radiusMult*tilt + 1;
 
-		if (this.gradientColors) {
-			this.color = this.generateGradient(ctx, this.pos.x, this.yAfterTilt, 
-				this.radius*this.radiusMult);
-		}
 
+		if (this.gradientColors) this.color = this.generateRGradient(ctx, this.gradientColors);
+		
 		// back of rings drawn
 		if (this.rings) 
 			this.rings.forEach((ring)=> this.drawRings(ctx, ring, this.yAfterTilt, Math.PI));
@@ -81,10 +83,16 @@ class OrbitingPlanet extends SolarObject {
 	};
 
 
-	generateGradient(ctx,x,y,radius){
-		const gradient = ctx.createLinearGradient(x-radius, y, x+radius,y);
-		gradient.addColorStop(0, this.gradientColors.a);
-		gradient.addColorStop(1, this.gradientColors.b);
+	generateRGradient(ctx, colors) {
+		const distance = Utils.distance([this.pos.x, this.yAfterTilt], 
+			[this.centerOfSS.x,this.centerOfSS.y]);
+		
+		const gradient = ctx.createRadialGradient(
+			this.centerOfSS.x, this.centerOfSS.y-distance/8, distance-distance/10,
+			this.centerOfSS.x, this.centerOfSS.y-distance/8, distance+this.radius*2);
+
+		gradient.addColorStop(0, colors.a);
+		gradient.addColorStop(1, colors.b);
 
 		return gradient;
 	};
@@ -93,7 +101,7 @@ class OrbitingPlanet extends SolarObject {
 	drawRings(ctx, ring, y, start) {
 		ctx.beginPath();
 		ctx.lineWidth = ring.thickness * this.radiusMult;
-		ctx.strokeStyle = ring.color;
+		ctx.strokeStyle = this.ringsColor;
 		ctx.ellipse(this.pos.x, y, 
 			ring.radius*this.radiusMult, 
 			ring.radius/3*this.radiusMult,

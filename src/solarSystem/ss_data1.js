@@ -1,9 +1,10 @@
 const SSData1 = {
 
-	addDataToSS(ctx, ss, center) {
+	addDataToSS(ctx, ss) {
+		const center = ss.getCenter();
 
-		ss.addSun(ctx,
-			{pos: center,
+		ss.addSun(ctx, 
+			{ pos: center,
 			radius: 60,
 			mass: 300,
 			color: "yellow"
@@ -13,22 +14,24 @@ const SSData1 = {
 		ss.addPlanet({
 			pos: { x: center.x + 250, y: center.y },
 			radius: 9,
-			gradientColors: { a: "blue", b: "lightblue" },
+			gradientColors: { a: "lightblue", b: "blue" },
 			mass: 10,
 			suns: ss.getSuns(),
 			speed: 3,
 			dir: { x: 0, y: -1 },
 			path: true,
-			rings: [{ color: "darkblue", radius: 18, angle: Math.PI / 6, thickness: 2 },
-				{ color: "darkblue", radius: 15, angle: Math.PI / 6, thickness: 2 },
-				{ color: "darkblue", radius: 12, angle: Math.PI / 6, thickness: 2 }]
+			ringsColor: "darkblue",
+			// ringsGradient: { a: "blue", b: "darkblue" },
+			rings: [{radius: 18, angle: Math.PI / 6, thickness: 2 },
+				{radius: 15, angle: Math.PI / 6, thickness: 2 },
+				{radius: 12, angle: Math.PI / 6, thickness: 2 }]
 		});
 
 
 		const ven = {
 			pos: { x: center.x - 150, y: center.y },
 			radius: 6,
-			gradientColors: { a: "green", b: "lightgreen" },
+			gradientColors: { a: "lightgreen", b: "darkgreen" },
 			mass: 8,
 			suns: ss.getSuns(),
 			speed: 5,
@@ -53,7 +56,7 @@ const SSData1 = {
 		const jup = {
 			pos: { x: center.x + 400, y: center.y },
 			radius: 12,
-			gradientColors: { a: "orange", b: "red" },
+			gradientColors: { a: "rgb(255, 153, 51)", b: "darkred" },
 			mass: 40,
 			suns: ss.getSuns(),
 			speed: 1.95,
@@ -64,7 +67,7 @@ const SSData1 = {
 		const jupsMoon = {
 			pos: { x: jup.pos.x - 50, y: jup.pos.y },
 			radius: 2,
-			color: "red",
+			color: "brown",
 			mass: 1.5,
 			speed: 2,
 			dir: { x: 0, y: -1 },
@@ -77,9 +80,9 @@ const SSData1 = {
 
 		ss.addComet({
 			pos: { x: center.x + 150, y: center.y + 250 },
-			radius: 2,
-			// color: "rgb(255, 255, 204)",
-			color: "violet",
+			radius: 1.5,
+			color: "rgb(255, 255, 204)",
+			// color: "#9933ff",
 			mass: 1,
 			suns: ss.getSuns(),
 			speed: 1.8,

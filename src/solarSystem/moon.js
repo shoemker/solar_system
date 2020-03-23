@@ -1,5 +1,5 @@
 const OrbitingPlanet = require("./orbiting_planet");
-const Utils = require("./utils");
+const Utils = require("../utils");
 
 class Moon extends OrbitingPlanet {
 	constructor(options) {
