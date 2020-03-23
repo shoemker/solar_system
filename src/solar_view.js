@@ -8,7 +8,7 @@ class SolarView {
 		this.ctx = ctx;
 
 		this.centerOfSS = {x:Utils.getCanvasDim().x / 2, y:Utils.getCanvasDim().y / 2};
-		this.ss = new SolarSystem(.294, this.centerOfSS);
+		this.ss = new SolarSystem(.294, this.centerOfSS, 300, Utils.getCanvasDim().y);
 		SSData1.addDataToSS(this.ctx, this.ss);
 
 		this.pause = false;
