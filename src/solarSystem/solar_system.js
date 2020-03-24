@@ -28,31 +28,29 @@ class SolarSystem {
 	setCenter(center) { this.center = center; }
 
 
-	addSun(ctx, options) {
-		options.centerOfSS = this.center;
+	addSun(ctx, color, sun) {
+		const pos = sun.getPosition();
+		const radius = sun.getRadius();
 
 		const gradient = ctx.createRadialGradient(
-			options.pos.x, options.pos.y, options.radius / 4,
-			options.pos.x, options.pos.y, options.radius);
+			pos.x, pos.y, radius / 4,
+			pos.x, pos.y, radius);
 
-		gradient.addColorStop(0, options.color);
+		gradient.addColorStop(0, color);
 		gradient.addColorStop(1, "transparent");
 
-		options.color = gradient;
-		options.centerOfSS = this.center;
+		sun.setColor(gradient);
 
-		this.suns.push(new OrbitingPlanet(options));
+		this.suns.push(sun);
 	};
 
 
-	addPlanet(options) {
-		options.centerOfSS = this.center;
-		const planet = new OrbitingPlanet(options);
+	addPlanet(planet) {
 		let moon;
 
 		// construct moons from data in datafile
-		if (options.moonData) {
-			options.moonData.forEach(data => {
+		if (planet.getMoonData()) {
+			planet.getMoonData().forEach(data => {
 				moon = new Moon(data);
 				moon.addSun(planet);
 				planet.getMoons().push(moon);
@@ -62,9 +60,8 @@ class SolarSystem {
 	};
 
 
-	addComet(options) {
-		options.centerOfSS = this.center;
-		this.planets.push(new Comet(options));
+	addComet(comet) {
+		this.planets.push(comet);
 	};
 
 
