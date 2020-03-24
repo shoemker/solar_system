@@ -16,7 +16,7 @@ class OrbitingPlanet extends SolarObject {
 	};
 
 	addMoon(moon) { this.moons.push(moon); };
-	
+	getMoons() { return this.moons; };
 
 	move() {
 		this.suns.forEach(sun => {
