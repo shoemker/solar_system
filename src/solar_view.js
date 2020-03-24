@@ -1,5 +1,6 @@
 const SolarSystem = require("./solarSystem/solar_system");
 const SSData1 = require("./solarSystem/ss_data1");
+const SSData2 = require("./solarSystem/ss_data2");
 
 const Utils = require("./utils");
 
@@ -7,8 +8,7 @@ class SolarView {
 	constructor(ctx) {
 		this.ctx = ctx;
 
-		this.centerOfSS = {x:Utils.getCanvasDim().x / 2, y:Utils.getCanvasDim().y / 2};
-		this.ss = new SolarSystem(.294, this.centerOfSS, 300, Utils.getCanvasDim().y);
+		this.ss = new SolarSystem(.294, 300, Utils.getCanvasDim().y);
 		SSData1.addDataToSS(this.ctx, this.ss);
 
 		this.pause = false;
