@@ -5,8 +5,9 @@ const Comet = require("./comet");
 const SSData1 = {
 	
 
-	addDataToSS(ctx, ss, center) {
+	addDataToSS(ss, center) {
 		ss.setTilt(.294);
+		// ss.setTilt(0)
 		
 		if (center) ss.setCenter(center);
 		else center = ss.getCenter();
@@ -123,12 +124,11 @@ const SSData1 = {
 
 
 
-		ss.addComet(new Comet({
+		ss.addPlanet(new Comet({
 			center,
 			pos: { x: center.x + 150, y: center.y + 250 },
 			radius: 1.5,
 			color: "rgb(255, 255, 204)",
-			// color: "#9933ff",
 			mass: 1,
 			suns: ss.getSuns(),
 			speed: 1.8,

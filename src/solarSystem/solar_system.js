@@ -26,30 +26,28 @@ class SolarSystem {
 
 
 	addSun(sun) {
-
-
 		this.suns.push(sun);
 	};
 
 
 	addPlanet(planet) {
 		let moon;
-
+		
 		// construct moons from data in the planet object
 		if (planet.getMoonData()) {
 			planet.getMoonData().forEach(data => {
 				moon = new Moon(data);
 				moon.addSun(planet);
-				planet.getMoons().push(moon);
+				planet.addMoon(moon);
 			})
 		}
 		this.planets.push(planet);
 	};
 
 
-	addComet(comet) {
-		this.planets.push(comet);
-	};
+	// addComet(comet) {
+	// 	this.planets.push(comet);
+	// };
 
 
 	step() {

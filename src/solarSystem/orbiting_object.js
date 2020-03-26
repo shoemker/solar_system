@@ -101,15 +101,22 @@ class OrbitingObject {
 	generateRGradient(ctx, colors) {
 		const distance = Utils.distance([this.pos.x, this.yAfterTilt], 
 			[this.centerOfSS.x,this.centerOfSS.y]);
-		
+
+		let radius1 = distance - this.radius * .9;
+		if (radius1 < 0) radius1 = 0;
+
+		let radius2 = distance + this.radius * 2;
+		if (radius2 < 0) radius2 = 0;
+
 		const gradient = ctx.createRadialGradient(
-			this.centerOfSS.x, this.centerOfSS.y-distance/8, distance-distance/10,
-			this.centerOfSS.x, this.centerOfSS.y-distance/8, distance+this.radius*2);
+			this.centerOfSS.x, this.centerOfSS.y-distance/5,radius1,
+			this.centerOfSS.x, this.centerOfSS.y-distance/5, radius2);
 
 		gradient.addColorStop(0, colors.a);
 		gradient.addColorStop(1, colors.b);
 
 		return gradient;
+
 	};
 
 
