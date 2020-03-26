@@ -1,17 +1,14 @@
 const Star = require("../non-ship_space_objects/star");
-const SolarObject = require("./solar_object");
-const OrbitingPlanet = require("./orbiting_planet");
-const Comet = require("./comet");
 const Moon = require("./moon");
 const Utils = require("../utils");
 
 class SolarSystem {
 
-	constructor(tilt, starCount, bottomOfStarField) {
+	constructor(starCount, bottomOfStarField) {
 		this.suns = [];
 		this.planets = [];
 
-		this.tilt = tilt;
+		this.tilt = 1;
 		this.center = { x: Utils.getCanvasDim().x / 2, y: Utils.getCanvasDim().y / 2 };
 
 		this.stars = new Array(starCount);
@@ -28,18 +25,8 @@ class SolarSystem {
 	setCenter(center) { this.center = center; }
 
 
-	addSun(ctx, color, sun) {
-		const pos = sun.getPosition();
-		const radius = sun.getRadius();
+	addSun(sun) {
 
-		const gradient = ctx.createRadialGradient(
-			pos.x, pos.y, radius / 4,
-			pos.x, pos.y, radius);
-
-		gradient.addColorStop(0, color);
-		gradient.addColorStop(1, "transparent");
-
-		sun.setColor(gradient);
 
 		this.suns.push(sun);
 	};
@@ -48,7 +35,7 @@ class SolarSystem {
 	addPlanet(planet) {
 		let moon;
 
-		// construct moons from data in datafile
+		// construct moons from data in the planet object
 		if (planet.getMoonData()) {
 			planet.getMoonData().forEach(data => {
 				moon = new Moon(data);
@@ -78,6 +65,11 @@ class SolarSystem {
 	};
 
 	moveObjects(){
+		this.suns.forEach((sun) => {
+			// debugger
+			sun.move();
+		});
+
 		this.planets.forEach((planet) => planet.move());
 	};
 }

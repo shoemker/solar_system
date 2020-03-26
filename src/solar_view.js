@@ -8,7 +8,7 @@ class SolarView {
 	constructor(ctx) {
 		this.ctx = ctx;
 
-		this.ss = new SolarSystem(.294, 300, Utils.getCanvasDim().y);
+		this.ss = new SolarSystem(300, Utils.getCanvasDim().y);
 		SSData1.addDataToSS(this.ctx, this.ss);
 
 		this.pause = false;

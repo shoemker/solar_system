@@ -1,9 +1,18 @@
-const SolarObject = require("./solar_object");
 const Utils = require("../utils");
 
-class OrbitingPlanet extends SolarObject {
+class OrbitingObject {
 	constructor(options) {
-		super(options);
+		this.pos = options.pos;
+		this.radius = options.radius;
+		this.mass = options.mass;
+		this.color = options.color;
+		this.dir = options.dir;
+		this.speed = options.speed;
+
+		if (options.suns) this.suns = options.suns;
+		else this.suns = [];
+
+		this.centerOfSS = options.centerOfSS;		
 		this.path = options.path;
 		this.moonData = options.moonData;
 		this.moons = [];
@@ -16,10 +25,15 @@ class OrbitingPlanet extends SolarObject {
 		this.yAfterTilt;
 	};
 
+	getPosition() { return this.pos; };
+	getMass() { return this.mass; };
+	getRadius() { return this.radius; };
+
 	addMoon(moon) { this.moons.push(moon); };
 	getMoons() { return this.moons; };
 	getMoonData() { return this.moonData; };
 	setColor(color) { this.color = color; };
+	addSun(sun) { this.suns.push(sun); };
 
 	move() {
 		this.suns.forEach(sun => {
@@ -124,4 +138,4 @@ class OrbitingPlanet extends SolarObject {
 	};
 }
 
-module.exports = OrbitingPlanet
+module.exports = OrbitingObject;
