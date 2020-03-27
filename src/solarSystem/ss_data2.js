@@ -1,37 +1,40 @@
 const OrbitingObject = require("./orbiting_object");
+const Sun = require("./sun");
 const Comet = require("./comet");
 
 const SSData2 = {
 
-	addDataToSS(ctx, ss, center) {
+	addDataToSS(ss, center) {
 
 		if (center) ss.setCenter(center);
 		else center = ss.getCenter();
 
-		const sun1 = new OrbitingObject({
+		const sun1 = new Sun({
 			center,
 			pos: { x: center.x - 100, y: center.y },
-			radius: 6,
+			radius: 60,
+			gradientColor: "yellow",
 			mass: 300,
-			speed: 2,
+			speed: 2.2,
 			suns: [],
 			dir: { x: 0, y: 1 }
 		});
 
-		const sun2 = new OrbitingObject({
+		const sun2 = new Sun({
 			center,
 			pos: { x: center.x + 100, y: center.y },
-			radius: 6,
+			radius: 60,
+			gradientColor: "yellow",
 			mass: 300,
-			speed: 2,
+			speed: 2.2,
 			suns: [sun1],
 			dir: { x: 0, y: -1 }
 		});
 
 		sun1.addSun(sun2);
 
-		ss.addSun(ctx, "yellow", sun1);
-		ss.addSun(ctx, "yellow", sun2);
+		ss.addSun(sun1);
+		ss.addSun(sun2);
 	}
 
 }

@@ -6,8 +6,10 @@ class Sun extends OrbitingObject{
 	constructor(options) {
 		super(options);
 		this.gradientColor = options.gradientColor;
+		// this.lastPositon;
 	};
 
+	// getLastPos() { return this.lastPositon; };
 
 	draw(ctx, tilt) {
 
