@@ -15,7 +15,7 @@ const SSData2 = {
 			radius: 60,
 			gradientColor: "yellow",
 			mass: 300,
-			speed: 2.2,
+			speed: 2.4,
 			suns: [],
 			dir: { x: 0, y: 1 }
 		});
@@ -26,7 +26,7 @@ const SSData2 = {
 			radius: 60,
 			gradientColor: "yellow",
 			mass: 300,
-			speed: 2.2,
+			speed: 2.4,
 			suns: [sun1],
 			dir: { x: 0, y: -1 }
 		});
