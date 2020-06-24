@@ -83,6 +83,7 @@ class OrbitingObject {
 
 		if (this.gradientColors) this.color = this.generateRGradient(ctx, this.gradientColors);
 
+		// draw moon if it's in back of planet
 		this.moons.forEach(moon => {
 			if (moon.getPosition().y < this.pos.y) 
 				moon.draw(ctx, tilt, this.yAfterTilt, this.radiusMult);
@@ -101,6 +102,7 @@ class OrbitingObject {
 		if (this.rings)
 			this.rings.forEach((ring) => this.drawRings(ctx, ring, this.yAfterTilt, 0));
 
+		// draw moon if it's in front of planet
 		this.moons.forEach(moon => {
 			if (moon.getPosition().y >= this.pos.y)
 				moon.draw(ctx, tilt, this.yAfterTilt, this.radiusMult);
