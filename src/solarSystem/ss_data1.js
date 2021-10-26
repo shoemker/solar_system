@@ -108,6 +108,18 @@ const SSData1 = {
 			suns: []
 		};
 
+		// const jupsSmMoon = {
+		// 	center,
+		// 	pos: { x: x - 40, y },
+		// 	radius: 1,
+		// 	color: "pink",
+		// 	mass: 1,
+		// 	speed: 2.5,
+		// 	dir: { x: 0, y: -1 },
+		// 	center,
+		// 	suns: []
+		// };
+
 		ss.addPlanet(new OrbitingObject({
 			center,
 			pos: { x: x, y: y },
