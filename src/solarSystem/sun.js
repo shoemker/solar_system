@@ -12,7 +12,7 @@ class Sun extends OrbitingObject{
 	draw(ctx, tilt) {
 
 		const gradient = ctx.createRadialGradient(
-			this.pos.x, this.pos.y, this.radius / 4,
+			this.pos.x, this.pos.y, this.radius / 5,
 			this.pos.x, this.pos.y, this.radius);
 		// debugger
 		gradient.addColorStop(0, this.gradientColor);

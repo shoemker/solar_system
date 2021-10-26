@@ -23,6 +23,9 @@ class OrbitingObject {
 		this.rings = options.rings;
 		this.ringsColor = options.ringsColor;
 		this.yAfterTilt;
+
+		this.farAwayMultiplier = .75;
+		this.closeMultiplier = 1.25;
 	};
 
 	getPosition() { return this.pos; };
@@ -41,8 +44,6 @@ class OrbitingObject {
 			const constant = 2.5;
 			this.distance = Utils.distance([this.pos.x, this.pos.y],
 				[sun.getPosition().x, sun.getPosition().y]);
-
-			// console.log(this.distance)
 
 			const deltaX = sun.getPosition().x - this.pos.x;
 			const deltaY = sun.getPosition().y - this.pos.y;
@@ -71,10 +72,14 @@ class OrbitingObject {
 
 	draw(ctx, tilt) {
 
-		let orbitingPosY = this.centerOfSS.y;
 
-		const distanceFromSunY = this.pos.y - orbitingPosY;
-		this.yAfterTilt =  distanceFromSunY*tilt +orbitingPosY ;
+		let distanceFromSunY = this.pos.y - this.centerOfSS.y;
+
+		// objects above sun are closer together on tilt
+		if (distanceFromSunY < 0) distanceFromSunY *= this.farAwayMultiplier;
+		if (distanceFromSunY > 0) distanceFromSunY *= this.closeMultiplier;
+
+		this.yAfterTilt =  distanceFromSunY*tilt +this.centerOfSS.y ;
 
 		this.radiusMult = 1 +  distanceFromSunY/300;
 
@@ -107,8 +112,6 @@ class OrbitingObject {
 			if (moon.getPosition().y >= this.pos.y)
 				moon.draw(ctx, tilt, this.yAfterTilt, this.radiusMult);
 		});
-
-	//	this.moons.forEach(moon => moon.draw(ctx, tilt, this.yAfterTilt, this.radiusMult));
 	};
 
 
@@ -150,11 +153,14 @@ class OrbitingObject {
 	drawPath(ctx, tilt) {
 		if (this.path) {
 			ctx.beginPath();
-			ctx.lineWidth = 1;
+			ctx.lineWidth = .3;
 			ctx.strokeStyle = "white";
 			ctx.ellipse(this.centerOfSS.x, this.centerOfSS.y,
-				this.distance, this.distance * tilt, 0, 0, 2 * Math.PI);
+				this.distance, this.distance * tilt* this.closeMultiplier, 0, 0, Math.PI);
+			ctx.ellipse(this.centerOfSS.x, this.centerOfSS.y,
+				this.distance, this.distance * tilt * this.farAwayMultiplier, 0, Math.PI,0);			
 			ctx.stroke();
+
 		}
 	};
 }

@@ -1,6 +1,6 @@
 const SolarSystem = require("./solarSystem/solar_system");
 const SSData1 = require("./solarSystem/ss_data1");
-const SSData2 = require("./solarSystem/ss_data2");
+// const SSData2 = require("./solarSystem/ss_data2");
 
 const Utils = require("./utils");
 

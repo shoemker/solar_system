@@ -40,6 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	window.addEventListener('keydown', (e) => {
 		// p pauses game
-		if (e.target == document.body && e.keyCode === 80) sv.pauseGameToggle(); 
+		if (e.target == document.body && e.key === 'p') sv.pauseGameToggle(); 
 	});
 });

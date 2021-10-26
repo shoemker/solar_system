@@ -24,7 +24,7 @@ const SSData1 = {
 		ss.addSun(new Sun( { 
 				center,
 				pos: center,
-				radius: 90,
+				radius: 110,
 				gradientColor: "yellow",
 				mass: 300,
 				speed: 0,
