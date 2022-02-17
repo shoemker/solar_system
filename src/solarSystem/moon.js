@@ -11,7 +11,6 @@ class Moon extends OrbitingObject {
 
 	addSun(sun) { this.suns.push(sun); };
 
-
 	shift(shiftX, shiftY) {
 		this.pos.x +=	shiftX;
 		this.pos.y += shiftY;
